@@ -5,7 +5,7 @@ PREFIX ?= /usr/local
 
 install:
 	@mkdir -p ${DESTDIR}${PREFIX}/bin
-	@cp -f lint ${DESTDIR}${PREFIX}/bin
+	@sed "s|/usr/local/|${DESTDIR}${PREFIX}|" lint > ${DESTDIR}${PREFIX}/bin/lint
 	@chmod 755 ${DESTDIR}${PREFIX}/bin/lint
 	@mkdir -p ${DESTDIR}${PREFIX}/share/lint
 	@cp -Rf handlers/* ${DESTDIR}${PREFIX}/share/lint/
