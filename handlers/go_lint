@@ -1,10 +1,12 @@
-#!/usr/bin/env bash
+#!/bin/sh
+# filter  out messages that don't include our client name
+# parse line numbers and error string, pretty print
+clck() {
+   	go test "$1" 2>&1 | grep "`basename $1`"
+}
 
-go test $1 &>/dev/stdout | while read -r line; do
-	name="$(basename $1)"
-	case "$line" in
-		*$name*)	num="$(cut -d ':' -f2 <<< "$line")"
-				error="$(awk '{ $1=""; print }' <<< "$line")"
-				printf 'line: %s error:%s\n' "$num" "$error" ;;
-	esac
+clck $1 | while read -r line; do
+    num="`printf '%s\n' "$line" | cut -d ':' -f2`"
+    err="`printf '%s\n' "$line" | awk '{ $1=""; print}'`"
+    printf 'line: %s error:%s\n' "$num" "$err"
 done
