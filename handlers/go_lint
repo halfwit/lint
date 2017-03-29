@@ -1,5 +1,5 @@
 #!/bin/sh
-# filter  out messages that don't include our client name
+# filter  out messages that don't include our file name
 # parse line numbers and error string, pretty print
 clck() {
    	go test "$1" 2>&1 | grep "`basename $1`"
