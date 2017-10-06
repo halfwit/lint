@@ -1,0 +1,13 @@
+#!/bin/sh
+# filter out messages that don't include our file name
+# parse line numbers and error string, pretty print
+
+clck() {
+	luac -p "$1" 2>&1
+}
+
+clck $1 | while read -r line; do
+	num="`printf '%s\n' "$line" | cut -d ':' -f3`"
+	err="`printf '%s\n' "$line" | awk '{ $1=""; $2=""; print}'`"
+	printf 'line: %s error:%s\n' "$num" "$err"
+done
